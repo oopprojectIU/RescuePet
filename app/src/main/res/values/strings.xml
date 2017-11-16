@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RescuePETs</string>
+    <string name="sbox">StatusBox</string>
+    <string name="play">Play</string>
+    <string name="store">Store</string>
+    <string name="setting">Setting</string>
+</resources>
