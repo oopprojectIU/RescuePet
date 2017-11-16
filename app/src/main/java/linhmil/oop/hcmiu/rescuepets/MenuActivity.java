@@ -35,8 +35,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 //Intent iStore=new Intent(this, StoreActivity.class);
                 //startActivity(iStore);
                 break;
-            case R.id.bMenuSetting:
-                break;
+            //case R.id.bMenuSetting:
+                //break;
         }
     }
 }
