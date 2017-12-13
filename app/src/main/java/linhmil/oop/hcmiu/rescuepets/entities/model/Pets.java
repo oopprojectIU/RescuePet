@@ -40,4 +40,10 @@ public class Pets {
     public void setPic(int pic) {
         this.pic = pic;
     }
+
+    public void assign(Pets p) {
+        id=p.getId();
+        pic=p.getPic();
+        name=p.getName();
+    }
 }

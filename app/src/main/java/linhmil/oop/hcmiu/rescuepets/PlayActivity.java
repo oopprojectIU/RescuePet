@@ -1,8 +1,11 @@
 package linhmil.oop.hcmiu.rescuepets;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.v4.widget.AutoScrollHelper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -13,6 +16,7 @@ import java.util.Random;
 
 import linhmil.oop.hcmiu.rescuepets.entities.adapter.PetAdapter;
 import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
+import linhmil.oop.hcmiu.rescuepets.map.OnSwipeTouchListener;
 
 public class PlayActivity extends Activity {
     GridView gvMatrix;
@@ -20,6 +24,7 @@ public class PlayActivity extends Activity {
     int[] arrImage;
     String[] arrPet;
     ArrayList<Pets> arrPets;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +64,45 @@ public class PlayActivity extends Activity {
         }
         PetAdapter adapter = new PetAdapter(this, R.layout.item_pet, arrPets);
         gvMatrix.setAdapter(adapter);
-        gvMatrix.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gvMatrix.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Pets pet = arrPets.get(position);
-                Toast.makeText(PlayActivity.this,position+" clicked", Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
+
+        /*gvMatrix.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
+                Pets pet = arrPets.get(position);
+                Toast.makeText(PlayActivity.this,position+" clicked", Toast.LENGTH_SHORT).show();
+
+                gvMatrix.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        int pos2nd=0;
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            pos2nd=position+8;
+                        }
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            pos2nd = position -8;
+                        }
+                        if (pos2nd<0) return false;
+                        Pets temp = new Pets();
+                        temp.assign(arrPets.get(position));
+                        arrPets.get(position).assign(arrPets.get(pos2nd));
+                        arrPets.get(pos2nd).assign(temp);
+                        return true;
+                    }
+                });
+                PetAdapter adapter = new PetAdapter(this, R.layout.item_pet, arrPets);
+                gvMatrix.setAdapter(adapter);
+            }
+        });*/
     }
 }
