@@ -65,9 +65,14 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:numColumns="8"
-        android:layout_marginBottom="80px"
-        android:layout_marginLeft="10px"
-        android:layout_marginRight="60px"
-        android:layout_marginTop="100px"></GridView>
+        android:layout_marginLeft="5px"
+        android:layout_marginRight="53px"
+        android:layout_marginTop="89px"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="5px"
+        android:verticalSpacing="3px">
+
+    </GridView>
 
 </LinearLayout>

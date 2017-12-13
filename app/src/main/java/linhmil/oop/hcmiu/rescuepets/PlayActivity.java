@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import linhmil.oop.hcmiu.rescuepets.entities.adapter.PetAdapter;
 import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
@@ -34,23 +35,35 @@ public class PlayActivity extends Activity {
             //arrImage[i]=images[i];
             arrId[i]=i;
         }
-        System.out.print(3);
-        arrPets= new ArrayList<>();
-        for (int i=0;i<arrImage.length;i++) {
-            Pets temp = new Pets();
-            temp.setId(arrId[i]);
-            temp.setName(arrPet[i]);
-            temp.setPic(arrImage[i]);
-            arrPets.add(temp);
+        //initialize matrix
+        int[][] a= new int[8][8];
+        for (int i=0;i<6;i++) {
+            for (int j=0;j<8;j++) {
+                Random r = new Random();
+                a[i][j]=r.nextInt()%4;
+                if (a[i][j]<0) a[i][j]*=-1;
+            }
+        }
+        //set item
+        if (arrPets==null) arrPets= new ArrayList<>();
+        for (int i=0;i<6;i++) {
+            int count=0;
+            for (int j =0; j<8; j++) {
+                Pets temp = new Pets();
+                int pos=a[i][j];
+                temp.setId(arrId[pos]);
+                temp.setName(arrPet[pos]);
+                temp.setPic(arrImage[pos]);
+                arrPets.add(temp);
+            }
         }
         PetAdapter adapter = new PetAdapter(this, R.layout.item_pet, arrPets);
         gvMatrix.setAdapter(adapter);
-        gvMatrix.setVerticalScrollBarEnabled(false);
         gvMatrix.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Pets pet = arrPets.get(position);
-                Toast.makeText(PlayActivity.this,position+" clicked", Toast.LENGTH_LONG).show();
+                Toast.makeText(PlayActivity.this,position+" clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }
