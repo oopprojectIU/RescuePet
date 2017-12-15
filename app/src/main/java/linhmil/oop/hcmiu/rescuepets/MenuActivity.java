@@ -1,6 +1,8 @@
 package linhmil.oop.hcmiu.rescuepets;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -22,7 +24,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_menu);
 
         bMenuPlay = (Button) findViewById(R.id.bMenuPlay);
-        bMenuSetting = (Button) findViewById(R.id.bMenuSetting);
+        bMenuSetting = (Button) findViewById(R.id.bRule);
         bStore = (Button) findViewById(R.id.bStore);
 
         bMenuSetting.setOnClickListener(this);
@@ -32,10 +34,11 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         //sound
         mySong= MediaPlayer.create(MenuActivity.this,R.raw.song);
         myClick= MediaPlayer.create(MenuActivity.this,R.raw.click);
-        //callButtono
+
+        //callButton
         button1 = (Button) findViewById(R.id.bMenuPlay);
         button2 = (Button) findViewById(R.id.bStore);
-        button3 = (Button) findViewById(R.id.bMenuSetting);
+        button3 = (Button) findViewById(R.id.bRule);
         //callAnimation
 
         uptodown= AnimationUtils.loadAnimation(this,R.anim.uptodown);
@@ -61,7 +64,29 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         myClick.start();
     }
 
-
+    //diaglog
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(MenuActivity.this);
+        a_builder.setMessage("Do you want to quit the game?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }) ;
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Quit game");
+        alert.show();
+        super.onBackPressed();
+    }
 
 
     @Override
@@ -72,11 +97,17 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 startActivity(iPlay);
                 break;
             case R.id.bStore:
-                //Intent iStore=new Intent(this, StoreActivity.class);
-                //startActivity(iStore);
+                AlertDialog.Builder a_builder = new AlertDialog.Builder(MenuActivity.this);
+                a_builder.setMessage("Coming Soon!!!")
+                        .setCancelable(true);
+                AlertDialog alert = a_builder.create();
+                alert.setTitle("Rescue Pets Store");
+                alert.show();
                 break;
-            //case R.id.bMenuSetting:
-            //break;
+            case R.id.bRule:
+                Intent iRule = new Intent(this, RulesActivity.class);
+                startActivity(iRule);
+                break;
         }
     }
 }

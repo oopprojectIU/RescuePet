@@ -7,7 +7,7 @@ import android.os.Handler;
 
 public class WelcomeActivity extends Activity {
 
-    private static  int WelcomeInteval = 2000;
+    private  int WelcomeInteval = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -2,6 +2,8 @@ package linhmil.oop.hcmiu.rescuepets;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,8 +20,6 @@ import java.util.Random;
 import linhmil.oop.hcmiu.rescuepets.dynamicgrid.DynamicGridView;
 import linhmil.oop.hcmiu.rescuepets.entities.adapter.PetAdapter;
 import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
-import linhmil.oop.hcmiu.rescuepets.movement.DragListener;
-import linhmil.oop.hcmiu.rescuepets.movement.LongPressListener;
 
 public class PlayActivity extends Activity {
     private DynamicGridView gvMatrix;
@@ -28,6 +28,28 @@ public class PlayActivity extends Activity {
     private String[] arrPet;
     private ArrayList<Pets> arrPets;
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(PlayActivity.this);
+        a_builder.setMessage("Do you want to quit the game?")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }) ;
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Quit game");
+        alert.show();
+
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -80,52 +102,7 @@ public class PlayActivity extends Activity {
                 return true;
             }
         });
+
+
     }
-
-
-
-/*        for (int i = 0; i < PetAdapter.NBR_ITEMS; i++) {
-            adapter.getView(i,null,gvMatrix );
-        }*/
-
-/*        final LayoutInflater inflater = LayoutInflater.from(this);
-        for (int i = 0; i < PetAdapter.NBR_ITEMS; i++) {
-            System.out.println(1);
-            final View itemView = inflater.inflate(R.layout.item_pet, gvMatrix, false);
-            System.out.println(1);
-            final ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            imageView.setImageResource(arrPets.get(i).getPic());
-            itemView.setOnLongClickListener(new LongPressListener());
-            gvMatrix.addView(itemView);
-        }*/
-
-        /*gvMatrix.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
-                Pets pet = arrPets.get(position);
-                Toast.makeText(PlayActivity.this,position+" clicked", Toast.LENGTH_SHORT).show();
-
-                gvMatrix.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        int pos2nd=0;
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            pos2nd=position+8;
-                        }
-                        if (event.getAction() == MotionEvent.ACTION_UP) {
-                            pos2nd = position -8;
-                        }
-                        if (pos2nd<0) return false;
-                        Pets temp = new Pets();
-                        temp.assign(arrPets.get(position));
-                        arrPets.get(position).assign(arrPets.get(pos2nd));
-                        arrPets.get(pos2nd).assign(temp);
-                        return true;
-                    }
-                });
-                PetAdapter adapter = new PetAdapter(this, R.layout.item_pet, arrPets);
-                gvMatrix.setAdapter(adapter);
-            }
-        });*/
-
 }

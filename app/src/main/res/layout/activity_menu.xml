@@ -28,21 +28,21 @@
             android:layout_weight="1"/>
 
         <Button
-            android:onClick="storeIT"
-            android:id="@+id/bStore"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="13dp"
-            android:background="@drawable/storebutton"
-            android:layout_weight="1"/>
-
-        <Button
             android:onClick="settingIT"
-            android:id="@+id/bMenuSetting"
+            android:id="@+id/bStore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/settingbutton"
             android:layout_weight="1"
             android:layout_marginBottom="13dp"/>
+
+        <Button
+            android:id="@+id/bRule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="13dp"
+            android:layout_weight="1"
+            android:background="@drawable/storebutton"
+            android:onClick="storeIT" />
     </LinearLayout>
 </RelativeLayout>

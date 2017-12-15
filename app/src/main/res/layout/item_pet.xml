@@ -7,6 +7,7 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:padding="14px"
             android:layout_width="134px"
             android:layout_height="148px"
             grid:srcCompat="@drawable/icon" />
