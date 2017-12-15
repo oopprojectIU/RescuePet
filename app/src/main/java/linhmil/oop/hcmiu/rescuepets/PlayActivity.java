@@ -84,10 +84,8 @@ public class PlayActivity extends Activity {
         for (int i = 0; i < 6; i++) {
             int count = 0;
             for (int j = 0; j < 8; j++) {
-                Pets temp = new Pets();
                 int pos = a[i][j];
-                temp.setId(arrId[pos]);
-                temp.setName(arrPet[pos]);
+                Pets temp = new Pets(arrId[pos]);
                 temp.setPic(arrImage[pos]);
                 arrPets.add(temp);
             }
