@@ -19,6 +19,7 @@ import java.util.Random;
 
 import linhmil.oop.hcmiu.rescuepets.dynamicgrid.DynamicGridView;
 import linhmil.oop.hcmiu.rescuepets.entities.adapter.PetAdapter;
+import linhmil.oop.hcmiu.rescuepets.entities.model.Board;
 import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
 
 public class PlayActivity extends Activity {
@@ -56,6 +57,7 @@ public class PlayActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+        Board.current=6;
 
         gvMatrix = (DynamicGridView) findViewById(R.id.gridlayout);
         TypedArray images = getResources().obtainTypedArray(R.array.arrImage);
@@ -69,22 +71,12 @@ public class PlayActivity extends Activity {
             arrId[i] = i;
         }
 
-        //initialize matrix
-        int[][] a = new int[8][8];
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 8; j++) {
-                Random r = new Random();
-                a[i][j] = r.nextInt() % 4;
-                if (a[i][j] < 0) a[i][j] *= -1;
-            }
-        }
-
-        //set item
+        //set item for gridlayout
         if (arrPets == null) arrPets = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             int count = 0;
             for (int j = 0; j < 8; j++) {
-                int pos = a[i][j];
+                int pos = Board.getInstance().getElement(Board.row-Board.current+i,j);;
                 Pets temp = new Pets(arrId[pos]);
                 temp.setPic(arrImage[pos]);
                 arrPets.add(temp);
@@ -97,6 +89,7 @@ public class PlayActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 gvMatrix.startEditMode(position);
+
                 return true;
             }
         });

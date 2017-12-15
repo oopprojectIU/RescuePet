@@ -7,7 +7,6 @@ import java.util.List;
 
 import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
 
-
 public class DynamicGridUtils {
     /**
      * Delete item in <code>list</code> from position <code>indexFrom</code> and insert it to <code>indexTwo</code>

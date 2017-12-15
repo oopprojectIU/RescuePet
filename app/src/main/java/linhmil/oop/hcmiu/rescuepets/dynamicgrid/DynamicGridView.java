@@ -37,7 +37,7 @@ import java.util.Stack;
  * Date: 9/6/13
  * Time: 12:31 PM
  */
-public class DynamicGridView extends GridView    {
+public class DynamicGridView extends GridView  {
     private static final int INVALID_ID = -1;
 
     private static final int MOVE_DURATION = 300;
@@ -416,6 +416,11 @@ public class DynamicGridView extends GridView    {
             }
         }
         return null;
+    }
+
+    @Override
+    public void setOnTouchListener(OnTouchListener l) {
+        super.setOnTouchListener(l);
     }
 
     @Override
