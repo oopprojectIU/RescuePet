@@ -19,26 +19,29 @@
         tools:layout_editor_absoluteY="0dp">
 
         <Button
+            android:onClick="playIT"
             android:id="@+id/bMenuPlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="13dp"
-            android:background="@drawable/b_play"
+            android:background="@drawable/playbutton"
             android:layout_weight="1"/>
 
         <Button
+            android:onClick="storeIT"
             android:id="@+id/bStore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="13dp"
-            android:background="@drawable/b_store"
+            android:background="@drawable/storebutton"
             android:layout_weight="1"/>
 
         <Button
+            android:onClick="settingIT"
             android:id="@+id/bMenuSetting"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/b_setting"
+            android:background="@drawable/settingbutton"
             android:layout_weight="1"
             android:layout_marginBottom="13dp"/>
     </LinearLayout>

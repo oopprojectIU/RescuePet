@@ -3,9 +3,13 @@ package linhmil.oop.hcmiu.rescuepets;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.TypedArray;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.view.animation.AnimationUtils;
 
 
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ public class PlayActivity extends Activity {
     private String[] arrPet;
     private ArrayList<Pets> arrPets;
 
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,28 +42,28 @@ public class PlayActivity extends Activity {
         arrPet = getResources().getStringArray(R.array.arrPet);
         arrImage = new int[5];
         arrId = new int[5];
-        for(int i=0;i<5;i++) {
-            arrImage[i]= images.getResourceId(i,-1);
-            arrId[i]=i;
+        for (int i = 0; i < 5; i++) {
+            arrImage[i] = images.getResourceId(i, -1);
+            arrId[i] = i;
         }
 
         //initialize matrix
-        int[][] a= new int[8][8];
-        for (int i=0;i<6;i++) {
-            for (int j=0;j<8;j++) {
+        int[][] a = new int[8][8];
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 8; j++) {
                 Random r = new Random();
-                a[i][j]=r.nextInt()%4;
-                if (a[i][j]<0) a[i][j]*=-1;
+                a[i][j] = r.nextInt() % 4;
+                if (a[i][j] < 0) a[i][j] *= -1;
             }
         }
 
         //set item
-        if (arrPets==null) arrPets= new ArrayList<>();
-        for (int i=0;i<6;i++) {
-            int count=0;
-            for (int j =0; j<8; j++) {
+        if (arrPets == null) arrPets = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            int count = 0;
+            for (int j = 0; j < 8; j++) {
                 Pets temp = new Pets();
-                int pos=a[i][j];
+                int pos = a[i][j];
                 temp.setId(arrId[pos]);
                 temp.setName(arrPet[pos]);
                 temp.setPic(arrImage[pos]);
@@ -66,7 +71,7 @@ public class PlayActivity extends Activity {
             }
         }
 
-        PetAdapter adapter = new PetAdapter(this,arrPets, 8);
+        PetAdapter adapter = new PetAdapter(this, arrPets, 8);
         gvMatrix.setAdapter(adapter);
         gvMatrix.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -75,6 +80,9 @@ public class PlayActivity extends Activity {
                 return true;
             }
         });
+    }
+
+
 
 /*        for (int i = 0; i < PetAdapter.NBR_ITEMS; i++) {
             adapter.getView(i,null,gvMatrix );
@@ -119,5 +127,5 @@ public class PlayActivity extends Activity {
                 gvMatrix.setAdapter(adapter);
             }
         });*/
-    }
+
 }
