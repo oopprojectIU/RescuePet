@@ -4,42 +4,44 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v4.widget.AutoScrollHelper;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import linhmil.oop.hcmiu.rescuepets.dynamicgrid.DynamicGridView;
 import linhmil.oop.hcmiu.rescuepets.entities.adapter.PetAdapter;
 import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
-import linhmil.oop.hcmiu.rescuepets.map.OnSwipeTouchListener;
+import linhmil.oop.hcmiu.rescuepets.movement.DragListener;
+import linhmil.oop.hcmiu.rescuepets.movement.LongPressListener;
 
 public class PlayActivity extends Activity {
-    GridView gvMatrix;
-    int[] arrId;
-    int[] arrImage;
-    String[] arrPet;
-    ArrayList<Pets> arrPets;
+    private DynamicGridView gvMatrix;
+    private int[] arrId;
+    private int[] arrImage;
+    private String[] arrPet;
+    private ArrayList<Pets> arrPets;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        gvMatrix = (GridView) findViewById(R.id.gridview);
+
+        gvMatrix = (DynamicGridView) findViewById(R.id.gridlayout);
         TypedArray images = getResources().obtainTypedArray(R.array.arrImage);
-        //int images[] = new int[]{R.drawable.cat,R.drawable.dog,R.drawable.hamster,R.drawable.tiger,R.drawable.pig};
+
+        //get resources
         arrPet = getResources().getStringArray(R.array.arrPet);
         arrImage = new int[5];
         arrId = new int[5];
         for(int i=0;i<5;i++) {
             arrImage[i]= images.getResourceId(i,-1);
-            //arrImage[i]=images[i];
             arrId[i]=i;
         }
+
         //initialize matrix
         int[][] a= new int[8][8];
         for (int i=0;i<6;i++) {
@@ -49,6 +51,7 @@ public class PlayActivity extends Activity {
                 if (a[i][j]<0) a[i][j]*=-1;
             }
         }
+
         //set item
         if (arrPets==null) arrPets= new ArrayList<>();
         for (int i=0;i<6;i++) {
@@ -62,19 +65,31 @@ public class PlayActivity extends Activity {
                 arrPets.add(temp);
             }
         }
-        PetAdapter adapter = new PetAdapter(this, R.layout.item_pet, arrPets);
+
+        PetAdapter adapter = new PetAdapter(this,arrPets, 8);
         gvMatrix.setAdapter(adapter);
-        gvMatrix.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        gvMatrix.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                gvMatrix.startEditMode(position);
+                return true;
             }
         });
+
+/*        for (int i = 0; i < PetAdapter.NBR_ITEMS; i++) {
+            adapter.getView(i,null,gvMatrix );
+        }*/
+
+/*        final LayoutInflater inflater = LayoutInflater.from(this);
+        for (int i = 0; i < PetAdapter.NBR_ITEMS; i++) {
+            System.out.println(1);
+            final View itemView = inflater.inflate(R.layout.item_pet, gvMatrix, false);
+            System.out.println(1);
+            final ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView.setImageResource(arrPets.get(i).getPic());
+            itemView.setOnLongClickListener(new LongPressListener());
+            gvMatrix.addView(itemView);
+        }*/
 
         /*gvMatrix.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

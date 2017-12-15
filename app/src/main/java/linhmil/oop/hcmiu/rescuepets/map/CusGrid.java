@@ -2,10 +2,13 @@ package linhmil.oop.hcmiu.rescuepets.map;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 /**
@@ -32,8 +35,12 @@ public class CusGrid extends GridView{
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public void setOnItemClickListener(@Nullable OnItemClickListener listener) {
+        super.setOnItemClickListener(listener);
+    }
 
-        return super.onTouchEvent(ev);
+    @Override
+    public int getSelectedItemPosition() {
+        return super.getSelectedItemPosition();
     }
 }

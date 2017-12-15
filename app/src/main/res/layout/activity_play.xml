@@ -59,11 +59,12 @@
 
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/gridview"
+    <linhmil.oop.hcmiu.rescuepets.dynamicgrid.DynamicGridView
+        android:id="@+id/gridlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:rowCount="6"
         android:numColumns="8"
         android:layout_marginLeft="5px"
         android:layout_marginRight="53px"
@@ -71,8 +72,6 @@
         android:scrollbars="none"
         android:stretchMode="columnWidth"
         android:horizontalSpacing="5px"
-        android:verticalSpacing="3px">
-
-    </GridView>
+        android:verticalSpacing="3px"/>
 
 </LinearLayout>
