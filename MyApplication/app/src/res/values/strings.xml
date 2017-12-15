@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">RescuePETs</string>
+    <string name="sbox">StatusBox</string>
+    <string name="play">Play</string>
+    <string name="store">Store</string>
+    <string name="setting">Setting</string>
+    <array name="arrImage">
+        <item>@drawable/cat</item>
+        <item>@drawable/dog</item>
+        <item>@drawable/pig</item>
+        <item>@drawable/hamster</item>
+        <item>@drawable/tiger</item>
+    </array>
+    <array name="arrPet">
+        <item>cat</item>
+        <item>dog</item>
+        <item>pig</item>
+        <item>hamster</item>
+        <item>tiger</item>
+    </array>
+
+
+</resources>
