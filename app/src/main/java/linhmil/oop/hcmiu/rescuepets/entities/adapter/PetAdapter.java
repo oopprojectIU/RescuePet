@@ -61,12 +61,14 @@ public class PetAdapter extends BaseDynamicGridAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView= LayoutInflater.from(getContext()).inflate(R.layout.item_pet, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_pet, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+            convertView.setOnHoverListener();
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         //ivItem.setOnLongClickListener(new LongPressListener());
         holder.build(getItems().get(position).getPic());
         return convertView;

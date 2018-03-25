@@ -83,7 +83,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                     }
                 }) ;
         AlertDialog alert = a_builder.create();
-        alert.setTitle("Quit game");
+        alert.setTitle("Quit game ");
         alert.show();
         super.onBackPressed();
     }

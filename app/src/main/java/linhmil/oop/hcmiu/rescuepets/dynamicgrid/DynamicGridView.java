@@ -17,6 +17,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Pair;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -31,6 +32,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+
+import linhmil.oop.hcmiu.rescuepets.entities.model.Pets;
+import linhmil.oop.hcmiu.rescuepets.movement.OnSwipeTouchListener;
 
 /**
  * Author: alex askerov
@@ -418,97 +422,93 @@ public class DynamicGridView extends GridView  {
         return null;
     }
 
-    @Override
-    public void setOnTouchListener(OnTouchListener l) {
-        super.setOnTouchListener(l);
-    }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                mDownX = (int) event.getX();
-                mDownY = (int) event.getY();
-                mActivePointerId = event.getPointerId(0);
-                if (mIsEditMode && isEnabled()) {
-                    layoutChildren();
-                    int position = pointToPosition(mDownX, mDownY);
-                    startDragAtPosition(position);
-                } else if (!isEnabled()) {
-                    return false;
-                }
+        public boolean onTouchEvent(MotionEvent event) {
+        int position;
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    mDownX = (int) event.getX();
+                    mDownY = (int) event.getY();
+                    mActivePointerId = event.getPointerId(0);
+                    if (mIsEditMode && isEnabled()) {
+                        layoutChildren();
+                        position = pointToPosition(mDownX, mDownY);
+                        startDragAtPosition(position);
+                    } else if (!isEnabled()) {
+                        return false;
+                    }
 
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                if (mActivePointerId == INVALID_ID) {
                     break;
-                }
 
-                int pointerIndex = event.findPointerIndex(mActivePointerId);
-
-                mLastEventY = (int) event.getY(pointerIndex);
-                mLastEventX = (int) event.getX(pointerIndex);
-                int deltaY = mLastEventY - mDownY;
-                int deltaX = mLastEventX - mDownX;
-
-                if (mCellIsMobile) {
-                    mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left + deltaX + mTotalOffsetX,
-                            mHoverCellOriginalBounds.top + deltaY + mTotalOffsetY);
-                    mHoverCell.setBounds(mHoverCellCurrentBounds);
-                    invalidate();
-                    handleCellSwitch();
-                    mIsMobileScrolling = false;
-                    handleMobileCellScroll();
-                    return false;
-                }
-                break;
-
-            case MotionEvent.ACTION_UP:
-                touchEventsEnded();
-
-                if (mUndoSupportEnabled) {
-                    if (mCurrentModification != null && !mCurrentModification.getTransitions().isEmpty()) {
-                        mModificationStack.push(mCurrentModification);
-                        mCurrentModification = new DynamicGridModification();
+                case MotionEvent.ACTION_MOVE:
+                    if (mActivePointerId == INVALID_ID) {
+                        break;
                     }
-                }
 
-                if (mHoverCell != null) {
-                    if (mDropListener != null) {
-                        mDropListener.onActionDrop();
+                    int pointerIndex = event.findPointerIndex(mActivePointerId);
+
+                    mLastEventY = (int) event.getY(pointerIndex);
+                    mLastEventX = (int) event.getX(pointerIndex);
+                    int deltaY = mLastEventY - mDownY;
+                    int deltaX = mLastEventX - mDownX;
+
+                    if (mCellIsMobile) {
+                        mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left + deltaX + mTotalOffsetX,
+                                mHoverCellOriginalBounds.top + deltaY + mTotalOffsetY);
+                        mHoverCell.setBounds(mHoverCellCurrentBounds);
+                        invalidate();
+                        handleCellSwitch();
+                        mIsMobileScrolling = false;
+                        handleMobileCellScroll();
+                        return false;
                     }
-                }
-                break;
+                    break;
 
-            case MotionEvent.ACTION_CANCEL:
-                touchEventsCancelled();
-
-                if (mHoverCell != null) {
-                    if (mDropListener != null) {
-                        mDropListener.onActionDrop();
-                    }
-                }
-                break;
-
-            case MotionEvent.ACTION_POINTER_UP:
-                /* If a multitouch event took place and the original touch dictating
-                 * the movement of the hover cell has ended, then the dragging event
-                 * ends and the hover cell is animated to its corresponding position
-                 * in the listview. */
-                pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >>
-                        MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                final int pointerId = event.getPointerId(pointerIndex);
-                if (pointerId == mActivePointerId) {
+                case MotionEvent.ACTION_UP:
                     touchEventsEnded();
-                }
-                break;
 
-            default:
-                break;
-        }
+                    if (mUndoSupportEnabled) {
+                        if (mCurrentModification != null && !mCurrentModification.getTransitions().isEmpty()) {
+                            mModificationStack.push(mCurrentModification);
+                            mCurrentModification = new DynamicGridModification();
+                        }
+                    }
 
-        return super.onTouchEvent(event);
+                    if (mHoverCell != null) {
+                        if (mDropListener != null) {
+                            mDropListener.onActionDrop();
+                        }
+                    }
+                    break;
+
+                case MotionEvent.ACTION_CANCEL:
+                    touchEventsCancelled();
+
+                    if (mHoverCell != null) {
+                        if (mDropListener != null) {
+                            mDropListener.onActionDrop();
+                        }
+                    }
+                    break;
+
+                case MotionEvent.ACTION_POINTER_UP:
+
+                    pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >>
+                            MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+                    final int pointerId = event.getPointerId(pointerIndex);
+                    if (pointerId == mActivePointerId) {
+                        touchEventsEnded();
+                    }
+                    break;
+
+                default:
+                    break;
+
+
+            }
+
+            return super.onTouchEvent(event);
     }
 
     private void startDragAtPosition(int position) {
